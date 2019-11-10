@@ -11,7 +11,8 @@ from stop_words import get_stop_words
 import json
 
 colors = []
-base_path = "/home/cr0wg4n/Escritorio/Work/sudamerica-wordcloud"
+#base_path = "/home/cr0wg4n/Escritorio/Work/sudamerica-wordcloud"
+base_path = "."
 
 def grey_color_func(word, font_size, position,orientation,random_state=None, **kwargs):
     global colors  
@@ -23,14 +24,17 @@ def grey_color_func(word, font_size, position,orientation,random_state=None, **k
     return(colors[np.random.randint(0,len(colors))])
 
 def get_word_image(text,stopwords,country):
-    text = open(path.join(d, 'frases.txt'),encoding="utf-8").read()
-    mask = np.array(Image.open(path.join(d, base_path+"/sudamerica/"+".png")))
-    stopwords = set(stop_words)
-    wc = WordCloud(background_color="white", max_words=2000, mask=mask,
-                stopwords=stopwords, contour_width=3, contour_color='rgb(73, 70, 108)')
-    wc.generate(text)
-    wc.recolor(color_func = grey_color_func)
-    wc.to_file(path.join(d, base_path+"/sudamerica_word/"+".png"))
+    try:
+        mask = np.array(Image.open(path.join(d, base_path+"/sudamerica/"+country+"_mask.png")))
+        stopwords = set(stop_words)
+        wc = WordCloud(background_color="white", max_words=2000, mask=mask,
+                    stopwords=stopwords, contour_width=3, contour_color='rgb(73, 70, 108)')
+        wc.generate(text)
+        wc.recolor(color_func = grey_color_func)
+        wc.to_file(path.join(d, base_path+"/sudamerica_word/"+country+"_words.png"))
+    except:
+        pass
+    
 
 
 MONGODB_HOST = 'localhost'
@@ -79,4 +83,4 @@ collection = db["feedbacks"]
 for document in collection.find():
     print (document)
 
-
+get_word_image('mauricio matias conde',stop_words,'bolivia')
