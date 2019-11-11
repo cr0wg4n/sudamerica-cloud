@@ -15,12 +15,12 @@ colors = []
 base_path = "."
 
 def grey_color_func(word, font_size, position,orientation,random_state=None, **kwargs):
-    global colors  
-    colors = [
-        "rgb(236,46,46)",
-        "rgb(48,173,31)",
-        "rgb(213,211,13)"
-    ]
+    # global colors  
+    # colors = [
+    #     "rgb(236,46,46)",
+    #     "rgb(48,173,31)",
+    #     "rgb(213,211,13)"
+    # ]
     return(colors[np.random.randint(0,len(colors))])
 
 def get_word_image(text,stopwords,country):
@@ -52,21 +52,34 @@ countries = [
     },
     {
     'name':'chile',
-    'colors':[],
+    'colors':[
+        "rgb(236,46,46)",
+        "rgb(48,173,31)",
+        "rgb(213,211,13)"
+    ],
     'language': 'spanish'
     },{
     'name':'argentina',
-    'colors':[],
+    'colors':[
+        "rgb(236,46,46)",
+        "rgb(48,173,31)",
+        "rgb(213,211,13)"
+    ],
     'language': 'spanish'
     },{
     'name':'venezuela',
-    'colors':[],
-    'language': 'spanish'
-    },{
-    'name':'brazil',
-    'colors':[],
+    'colors':[
+        "rgb(236,46,46)",
+        "rgb(48,173,31)",
+        "rgb(213,211,13)"
+    ],
     'language': 'spanish'
     },
+    # {
+    # 'name':'brazil',
+    # 'colors':[],
+    # 'language': 'spanish'
+    # },
 ]
 
 connection = MongoClient(MONGODB_HOST, MONGODB_PORT)
@@ -75,12 +88,14 @@ stop_words = get_stop_words('spanish')
 d = path.dirname(__file__) if "__file__" in locals() else os.getcwd()
 
 for country in countries:
-    print(country['name'])
-
-
-
+    collection = db[country['name']]
+    text = ''
+    for document in collection.find():
+        text = text + document['message']
+    colors = country['colors']
+    get_word_image(text, stop_words, country['name'])
+    
 collection = db["feedbacks"]
 for document in collection.find():
     print (document)
 
-get_word_image('mauricio matias conde',stop_words,'bolivia')
