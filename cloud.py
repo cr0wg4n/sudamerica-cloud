@@ -14,8 +14,8 @@ import time
 
 start_time = time.time()
 colors = []
-base_path = "/var/www/html/esperanza/public/img/home"
-#base_path = "."
+#base_path = "/var/www/html/esperanza/public/img/home"
+base_path = "."
 
 def grey_color_func(word, font_size, position,orientation,random_state=None, **kwargs):
     return(colors[np.random.randint(0,len(colors))])
