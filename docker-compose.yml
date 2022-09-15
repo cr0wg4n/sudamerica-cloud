@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  app:
+    image: cloudwords:0.1
+    build:
+      context: .
+      args:
+        - password_db=$PASSWORD_DB
+        - user_db=$USER_DB
+    container_name: cloudwords
+    depends_on:
+      - mongodb    
+    links:
+      - mongodb
+    volumes:
+      - ./sudamerica:/app/sudamerica
+      - ./sudamerica_word:/app/sudamerica_word
+  mongodb:
+    image: mongo:5.0.12
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $USER_DB
+      MONGO_INITDB_ROOT_PASSWORD: $PASSWORD_DB
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro    
