@@ -8,12 +8,26 @@ pip3 install -r requirements.txt
 
 __Docker__
 
+In the folder of the project create a .env file :
+
+example:
+
+```
+PASSWORD_DB=password
+USER_DB=root
+```
+
 build a docker container
 
 ```
 docker-compose up 
 ```
+or 
 
-**Important** cloudwords:0.1 the app will terminate first but created the image(png) in sudamerica_word folder.
+```
+docker compose --env-file .env up
+```
+
+**Important** cloudwords:0.1 the app will terminate first but created the image(png) will be in sudamerica_word folder.
 
 __next_step__ gitlab and ci/cd
